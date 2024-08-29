@@ -18,7 +18,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
-#if 0
+
 /*
  * @brief Tests singleton of the ContentModuleFacade class
  */
@@ -56,7 +56,7 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndAddProvider)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.stop());
 }
@@ -74,9 +74,10 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndAddTwoProviders)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
-    EXPECT_THROW(contentModuleFacade.addProvider(topicName, m_parameters), std::runtime_error);
+    EXPECT_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}),
+                 std::runtime_error);
 
     EXPECT_NO_THROW(contentModuleFacade.stop());
 }
@@ -99,7 +100,7 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartSchedulingForRawData)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
@@ -133,7 +134,7 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndChangeSchedulerIntervalForRawDat
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.changeSchedulerInterval(topicName, interval + 1));
 
@@ -206,7 +207,7 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartOnDemandForRawData)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.startOndemand(topicName));
 
@@ -284,7 +285,7 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartSchedulingForCompressedData
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
@@ -358,7 +359,7 @@ TEST_F(ContentModuleFacadeTest,
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
@@ -374,4 +375,3 @@ TEST_F(ContentModuleFacadeTest,
 
     EXPECT_TRUE(std::filesystem::exists(outputFolder));
 }
-#endif
