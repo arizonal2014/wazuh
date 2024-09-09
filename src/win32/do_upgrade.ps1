@@ -79,7 +79,11 @@ function check-process
 function check-installation
 {
     $new_version = (Get-Content VERSION)
-    $counter = 5
+    if ($current_version -eq $new_version) {
+        $counter = 0
+    } else {
+        $counter = 5
+    }
     while($new_version -eq $current_version -And $counter -gt 0)
     {
         write-output "$(Get-Date -format u) - Waiting for the Wazuh-Agent installation to end." >> .\upgrade\upgrade.log
@@ -88,7 +92,7 @@ function check-installation
         $new_version = (Get-Content VERSION)
     }
     write-output "$(Get-Date -format u) - Restarting Wazuh-Agent service." >> .\upgrade\upgrade.log
-    Get-Service -Name "Wazuh" | Start-Service
+    Start-Service -Name "Wazuh"
 }
 
 # Stop UI and launch the msi installer
