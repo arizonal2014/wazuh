@@ -56,7 +56,11 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndAddProvider)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.stop());
 }
@@ -74,9 +78,16 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndAddTwoProviders)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
-    EXPECT_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}),
+    EXPECT_THROW(contentModuleFacade.addProvider(topicName,
+                                                 m_parameters,
+                                                 [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop)
+                                                     -> std::tuple<int, std::string, bool> { return {0, "", false}; }),
                  std::runtime_error);
 
     EXPECT_NO_THROW(contentModuleFacade.stop());
@@ -100,7 +111,11 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartSchedulingForRawData)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
@@ -134,7 +149,11 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndChangeSchedulerIntervalForRawDat
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.changeSchedulerInterval(topicName, interval + 1));
 
@@ -207,7 +226,11 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartOnDemandForRawData)
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.startOndemand(topicName));
 
@@ -285,7 +308,11 @@ TEST_F(ContentModuleFacadeTest, TestSingletonAndStartSchedulingForCompressedData
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
@@ -359,7 +386,11 @@ TEST_F(ContentModuleFacadeTest,
 
     EXPECT_NO_THROW(contentModuleFacade.start({}));
 
-    EXPECT_NO_THROW(contentModuleFacade.addProvider(topicName, m_parameters, [](const std::string& msg) {}));
+    EXPECT_NO_THROW(contentModuleFacade.addProvider(
+        topicName,
+        m_parameters,
+        [](const std::string& msg, std::shared_ptr<ConditionSync> shouldStop) -> std::tuple<int, std::string, bool>
+        { return {0, "", false}; }));
 
     EXPECT_NO_THROW(contentModuleFacade.startScheduling(topicName, interval));
 
