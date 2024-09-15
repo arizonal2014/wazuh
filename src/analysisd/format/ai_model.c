@@ -6,7 +6,7 @@
 #include <string.h>
 
 // Your OpenAI API key
-const char* api_key = "sk-your-openai-api-key";
+const char *api_key = "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";
 
 // Func to all AI model using Wazuh's HTTP request system
 char* call_ai_model(const char* log_data)
