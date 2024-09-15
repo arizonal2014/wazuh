@@ -261,21 +261,16 @@ char* Eventinfo_to_jsonstr(const Eventinfo* lf, bool force_full_log, OSList * li
     }
 
     // --- New: Generate AI explanation and add to JSON output ---
-    if (!lf->ai_explanation)
+    char* ai_explanation = call_ai_model(lf->full_log); // Call AI model to generate explanation
+    if (ai_explanation)
     {
-        lf->ai_explanation = call_ai_model(lf->full_log); // Call AI model to generate explanation
-    }
-
-    if (lf->ai_explanation)
-    {
-        cJSON_AddStringToObject(root, "ai_explanation", lf->ai_explanation); // Add explanation to JSON
+        cJSON_AddStringToObject(root, "ai_explanation", ai_explanation); // Add explanation to JSON
+        free(ai_explanation);                                            // Free the allocated explanation after use
     }
     else
     {
         cJSON_AddStringToObject(root, "ai_explanation", "No AI explanation available");
     }
-
-    
 
     if(lf->protocol) {
         cJSON_AddStringToObject(data, "protocol", lf->protocol);

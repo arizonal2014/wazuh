@@ -5,6 +5,8 @@
 // Temporary AI model function for testing
 char* call_ai_model(const char* log_data)
 {
+
+    (void)log_data;
     // For now, we return a static string for testing purposes
     const char* explanation = "This is a temporary AI explanation based on the log data.";
 
