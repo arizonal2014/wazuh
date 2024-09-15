@@ -9,13 +9,14 @@
  */
 
 #include "to_json.h"
-#include "json_extended.h"
-#include "shared.h"
-#include "syscheck_op.h"
-#include "rules.h"
-#include "mitre.h"
+#include "ai_model.h"
 #include "cJSON.h"
 #include "config.h"
+#include "json_extended.h"
+#include "mitre.h"
+#include "rules.h"
+#include "shared.h"
+#include "syscheck_op.h"
 #include "wazuh_modules/wmodules.h"
 
 #define is_win_permission(x) (strchr(x, '|'))
@@ -258,6 +259,23 @@ char* Eventinfo_to_jsonstr(const Eventinfo* lf, bool force_full_log, OSList * li
         }
         os_free(previous_events);
     }
+
+    // --- New: Generate AI explanation and add to JSON output ---
+    if (!lf->ai_explanation)
+    {
+        lf->ai_explanation = call_ai_model(lf->full_log); // Call AI model to generate explanation
+    }
+
+    if (lf->ai_explanation)
+    {
+        cJSON_AddStringToObject(root, "ai_explanation", lf->ai_explanation); // Add explanation to JSON
+    }
+    else
+    {
+        cJSON_AddStringToObject(root, "ai_explanation", "No AI explanation available");
+    }
+
+    
 
     if(lf->protocol) {
         cJSON_AddStringToObject(data, "protocol", lf->protocol);

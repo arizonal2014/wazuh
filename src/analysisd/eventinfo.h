@@ -28,6 +28,7 @@ typedef struct _Eventinfo {
     /* Extracted from the event */
     char *log;
     char *full_log;
+    char* ai_explanation;
     const char * log_after_parent;
     const char * log_after_prematch;
     char *agent_id;

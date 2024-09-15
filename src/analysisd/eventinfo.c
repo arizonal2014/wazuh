@@ -641,6 +641,7 @@ void Zero_Eventinfo(Eventinfo *lf)
 {
     lf->log = NULL;
     lf->full_log = NULL;
+    lf->ai_explanation = NULL;
     lf->log_after_parent = NULL;
     lf->log_after_prematch = NULL;
     lf->agent_id = NULL;
@@ -775,6 +776,12 @@ void Free_Eventinfo(Eventinfo *lf)
 
     if (lf->full_log) {
         free(lf->full_log);
+    }
+
+    // Free AI explanation if it exists
+    if (lf->ai_explanation)
+    {
+        free(lf->ai_explanation);
     }
 
     if (lf->agent_id) {
@@ -998,6 +1005,16 @@ void w_copy_event_for_log(Eventinfo *lf,Eventinfo *lf_cpy){
         os_strdup(lf->full_log,lf_cpy->full_log);
     }
 
+    // Copy AI explanation if it exists
+    if (lf->ai_explanation)
+    {
+        os_strdup(lf->ai_explanation, lf_cpy->ai_explanation);
+    }
+    else
+    {
+        lf_cpy->ai_explanation = NULL;
+    }
+    
     lf_cpy->log_after_parent = lf->log_after_parent;
     lf_cpy->log_after_prematch = lf->log_after_prematch;
     lf_cpy->generate_time = lf->generate_time;
